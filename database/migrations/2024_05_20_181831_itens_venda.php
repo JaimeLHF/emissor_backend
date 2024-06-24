@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('venda_id');
             $table->unsignedBigInteger('produto_id');
             $table->float('qtd');
-            $table->double('valor', 10, 2);
+            $table->double('valor', 10, 4);
+            $table->double('valorTotal', 10, 4);
             $table->timestamps();
 
             $table->foreign('venda_id')->references('id')

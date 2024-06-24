@@ -43,6 +43,7 @@ class VendasController extends Controller
 
                 ItensVenda::create([
                     'valor' => str_replace(",", ".", $i['valor']),
+                    'valorTotal' => str_replace(",", ".", $i['valor']) * $i['qtd'],
                     'qtd' => $i['qtd'],
                     'venda_id' => $result->id,
                     'produto_id' => $i['id']
@@ -76,7 +77,7 @@ class VendasController extends Controller
     {
         try {
 
-            $venda = Vendas::with('cliente', 'itens.produto', 'fatura', 'transportadora')->get();
+            $venda = Vendas::with('cliente', 'itens.produto', 'itens.produto.acabamento', 'fatura', 'transportadora')->get();
 
             if (!$venda) {
                 return response()->json(['message' => 'venda não encontrada'], 404);
@@ -114,7 +115,7 @@ class VendasController extends Controller
     {
         try {
 
-            $venda = Vendas::with('cliente', 'itens.produto', 'fatura', 'transportadora')->find($id);
+            $venda = Vendas::with('cliente', 'itens.produto', 'itens.produto.acabamento', 'fatura', 'transportadora')->find($id);
 
             if (!$venda) {
                 return response()->json(['message' => 'Venda não econtrada!'], 404);

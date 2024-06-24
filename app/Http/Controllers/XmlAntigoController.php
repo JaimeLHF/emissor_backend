@@ -12,43 +12,44 @@ class XmlAntigoController extends Controller
 {
     public function index()
     {
-        // Obtém todos os registros da tabela xml_antigos
-        $xmlAntigos = XmlAntigo::all();
-
-        // Retorna os registros em formato JSON
-        return response()->json($xmlAntigos);
+        try {
+            $xmlAntigos = XmlAntigo::all();
+            return response()->json($xmlAntigos, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
+        }
     }
 
-    public function vincular(Request $request)
-    {
-       
-        // $emitente = Emitente::first();
-        $xml_venda = XmlAntigo::where('numero_nota', $request->numero_nfe)->first();
+    // public function vincular(Request $request)
+    // {
 
-    
+    //     // $emitente = Emitente::first();
+    //     $xml_venda = XmlAntigo::where('numero_nota', $request->numero_nfe)->first();
 
-        $nfe_service = new NFeService([
-            "atualizacao" => date('Y-m-d h:i:s'),
-            "tpAmb" => 1,
-            "razaosocial" => 'DRD INDUSTRIA E COMERCIO DE MOVEIS LTDA',
-            "siglaUF" => 'SC',
-            "cnpj" => '24287808000160',
-            "schemes" => "PL_009_V4",
-            "versao" => "4.00",
-            "tokenIBPT" => "AAAAAAA",
-            "CSC" => "AAAAAAA",
-            "CSCid" => "000001"
-        ]);
 
-        $result = $nfe_service->consultaNFe($request->chave);
 
-        $nfe = $nfe_service->vincularCancelamento($request->chave, $xml_venda->xml);
+    //     $nfe_service = new NFeService([
+    //         "atualizacao" => date('Y-m-d h:i:s'),
+    //         "tpAmb" => 1,
+    //         "razaosocial" => 'DRD INDUSTRIA E COMERCIO DE MOVEIS LTDA',
+    //         "siglaUF" => 'SC',
+    //         "cnpj" => '24287808000160',
+    //         "schemes" => "PL_009_V4",
+    //         "versao" => "4.00",
+    //         "tokenIBPT" => "AAAAAAA",
+    //         "CSC" => "AAAAAAA",
+    //         "CSCid" => "000001"
+    //     ]);
 
-        $xml_venda->xml = $nfe['sucesso'];
-        $xml_venda->save();
+    //     $result = $nfe_service->consultaNFe($request->chave);
 
-        return response()->json($result, 200);
-    }
+    //     $nfe = $nfe_service->vincularCancelamento($request->chave, $xml_venda->xml);
+
+    //     $xml_venda->xml = $nfe['sucesso'];
+    //     $xml_venda->save();
+
+    //     return response()->json($result, 200);
+    // }
 
 
     public function imprimir($numero_nfe)
@@ -59,7 +60,7 @@ class XmlAntigoController extends Controller
         $venda = XmlAntigo::where('numero_nota', $numero_nfe)->first();
 
         $xmlContent  = $venda->xml;
-       
+
         $xml = $xmlContent;
         $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents(realpath('../public/drd_logo.jpg')));
 
@@ -85,17 +86,7 @@ class XmlAntigoController extends Controller
             $danfe->setDefaultDecimalPlaces(4);
             $danfe->debugMode(false);
             $danfe->creditsIntegratorFooter('by FuckingSystem');
-            //$danfe->epec('891180004131899', '14/08/2018 11:24:45'); //marca como autorizada por EPEC
-
-            // Caso queira mudar a configuracao padrao de impressao
-            /*  $this->printParameters( $orientacao = '', $papel = 'A4', $margSup = 2, $margEsq = 2 ); */
-            // Caso queira sempre ocultar a unidade tributável
-            /*  $this->setOcultarUnidadeTributavel(true); */
-            //Informe o numero DPEC
-            /*  $danfe->depecNumber('123456789'); */
-            //Configura a posicao da logo
-            // $danfe->logoParameters($logo, 'C', false);
-            //Gera o PDF
+   
             $pdf = $danfe->render($logo);
             header('Content-Type: application/pdf');
             echo $pdf;
