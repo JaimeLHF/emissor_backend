@@ -81,9 +81,9 @@ class NFeService
         $stdIde->verProc = '0.00'; //
         $nfe->tagide($stdIde);
 
-        $stdRef = new \stdClass();
-        $stdIde->refNFe = '43240393092831000111550010000515351555271672'; //
-        $nfe->tagrefNFe($stdRef);
+        // $stdRef = new \stdClass();
+        // $stdIde->refNFe = '43240393092831000111550010000515351555271672'; //
+        // $nfe->tagrefNFe($stdRef);
 
 
         ////////////////////////////////////////////////////////////////////
@@ -436,11 +436,11 @@ class NFeService
             $nfe->tagtransporta($stdTransportdora);
         }
 
-        $stdVol = new \stdClass();
-        $stdVol->qVol = 26;
-        $stdVol->pesoL = 520;
-        $stdVol->pesoB = 520;
-        $nfe->tagvol($stdVol);
+        // $stdVol = new \stdClass();
+        // $stdVol->qVol = 26;
+        // $stdVol->pesoL = 520;
+        // $stdVol->pesoB = 520;
+        // $nfe->tagvol($stdVol);
 
         ////////////////////////////////////////////////////////////////////
 

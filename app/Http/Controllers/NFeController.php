@@ -158,6 +158,7 @@ class NFeController extends Controller
                         $venda->motivo_rejeitado = null;
                         $venda->chave = $result['chave'];
                         $venda->status = 'Aprovado';
+                        $venda->motivo_rejeitado = ''; 
                         $venda->numero_nfe = $result['nNf'];
                         XML::create(
                             [
@@ -167,7 +168,7 @@ class NFeController extends Controller
                                 'tipo' => 'NFe',
                                 'xml' => $resultado['sucesso']
 
-                            ]
+                            ]   
                         );
 
                         $venda->save();
