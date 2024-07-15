@@ -203,7 +203,7 @@ class NFeService
         $nfe->tagenderDest($stdEnderDest);
 
         ////////////////////////////////////////////////////////////////////
-
+        $totalVProd = 0.00;
         //ITENS DA NFE
         foreach ($venda->itens as $key => $i) {
 
@@ -260,6 +260,12 @@ class NFeService
                     $stdICMSSN->vCredICMSSN = $stdProd->vProd * ($emitente->percentual_aliquota_icms / 100);
                     $nfe->tagICMSSN($stdICMSSN);
 
+                    if ($stdICMSSN->CSOSN == 40 || $stdICMSSN->CSOSN == 41) {
+                        $totalVProd = 0;
+                    } else {
+                        $totalVProd += floatval($stdProd->vProd);
+                    }
+
                     //IPI Simples Nacional
                     $stdIPI = new \stdClass();
                     $stdIPI->item = $key + 1;
@@ -269,6 +275,8 @@ class NFeService
                     $stdIPI->pIPI = $this->format($i->produto->perc_ipi);
                     $stdIPI->vIPI = $stdProd->vProd * ($i->produto->perc_ipi / 100);
                     $nfe->tagIPI($stdIPI);
+
+
 
                     //PIS
                     $stdPIS = new \stdClass();
@@ -311,6 +319,12 @@ class NFeService
                     $stdICMS->pCredSN = $emitente->percentual_aliquota_icms; //Percentual da Aliquota
                     $stdICMS->vCredICMSSN = $stdProd->vProd * ($emitente->percentual_aliquota_icms / 100);
                     $nfe->tagICMS($stdICMS);
+
+                    if ($stdICMS->CST == 40 || $stdICMS->CST == 41) {
+                        $totalVProd = 0;
+                    } else {
+                        $totalVProd += floatval($stdProd->vProd);
+                    }
 
                     //IPI Simples Nacional
                     $stdIPI = new \stdClass();
@@ -366,6 +380,12 @@ class NFeService
                     $stdICMS->vCredICMSSN = $stdProd->vProd * ($emitente->percentual_aliquota_icms / 100);
                     $nfe->tagICMS($stdICMS);
 
+                    if ($stdICMS->CST == 40 || $stdICMS->CST == 41) {
+                        $totalVProd = 0;
+                    } else {
+                        $totalVProd += floatval($stdProd->vProd);
+                    }
+
                     //IPI
                     $stdIPI = new \stdClass();
                     $stdIPI->item = $key + 1;
@@ -401,7 +421,7 @@ class NFeService
         //ICMS TOTAL
         $stdICMSTot = new \stdClass();
         $stdICMSTot->vProd = $this->format($venda->valorTotal);
-        $stdICMSTot->vBC =  $stdICMSSN->CSOSN == '41' ? 0 : $this->format($venda->valorTotal);
+        $stdICMSTot->vBC =  $this->format($totalVProd);
         $stdICMSTot->vICMS = $emitente->situacao_tributaria != 3 && $emitente->situacao_tributaria != 2 ? 0.00 : $this->format($venda->valorTotal) * ($stdICMS->pICMS / 100);
         $stdICMSTot->vICMSDeson = 0.00;
         $stdICMSTot->vBCST = 0.00;

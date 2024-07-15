@@ -61,7 +61,7 @@ class VendasController extends Controller
                     'venda_id' => $result->id,
                     'vencimento' => \Carbon\Carbon::parse(str_replace("/", "-", $f['vencimento']))->format('Y-m-d'),
                     'forma_pagamento' => $f['forma_pagamento'],
-                    'status' => $f['status'],
+                    'status' => "Aberto",
                     'valor_ipi' => $valorIPI + str_replace(",", ".", $f['valor'])
                 ]);
             }

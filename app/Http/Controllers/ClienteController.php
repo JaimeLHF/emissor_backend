@@ -67,6 +67,12 @@ class ClienteController extends Controller
     public function updateById(Request $request, $id)
     {
         try {
+            $existingCliente = Clientes::where('cpf_cnpj', $request->input('cpf_cnpj'))->first();
+
+            if ($existingCliente) {
+                return response()->json(['message' => 'Cliente com esse CNPJ/CPF já existe'], 422);
+            }
+
             $cliente = Clientes::find($id);
 
             if (!$cliente) {
