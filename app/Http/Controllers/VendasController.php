@@ -47,7 +47,6 @@ class VendasController extends Controller
                     'qtd' => $i['qtd'],
                     'venda_id' => $result->id,
                     'produto_id' => $i['id']
-
                 ]);
             }
 
@@ -92,24 +91,71 @@ class VendasController extends Controller
     public function updateById(Request $request, $id)
     {
         try {
-            $venda = Vendas::find($id);           
+            $vendaData = $request->venda;
 
+            $venda = Vendas::find($id);
 
             if (!$venda) {
-                return response()->json(['message' => 'venda não econtrado!'], 404);
+                return response()->json(['message' => 'Venda não encontrada!'], 404);
             }
 
-            if ($venda->status == "Aprovado" || $venda->chave != null) {
-                return response()->json(['Venda com NFe já transmitida! Impossível alterar'], 400);
-            }         
+            // Calcula o valor total com base nos itens
+            $valorTotal = 0;
+            foreach ($vendaData['itens'] as $i) {
+                $valorTotal += floatval(str_replace(",", ".", $i['valor'])) * intval($i['qtd']);
+            }
 
-            $venda->update($request->all());
+            // Atualiza a venda com o valorTotal calculado
+            $venda->update([
+                'valorTotal' => $valorTotal,
+                'cliente_id' => $vendaData['cliente_id'],
+                'sequencia_evento' => $vendaData['sequencia_evento'],
+                'natOp' => $vendaData['natOp'],
+                'finNFe' => $vendaData['finNFe'],
+                'chave' => $vendaData['chave'],
+                'numero_nfe' => $vendaData['numero_nfe'],
+                'modFrete' => $vendaData['modFrete'],
+                'vFrete' => $vendaData['vFrete'],
+                'status' => $vendaData['status'],
+                'infCpl' => $vendaData['infCpl'],
+                'transp_id' => $vendaData['transp_id']
+            ]);
 
-            return response()->json(['Venda atualizada' => $venda], 200);
+            // Atualiza Itens da venda
+            $venda->itens()->delete(); // Remove os itens antigos
+            foreach ($vendaData['itens'] as $i) {
+                ItensVenda::create([
+                    'valor' => str_replace(",", ".", $i['valor']),
+                    'valorTotal' => str_replace(",", ".", $i['valor']) * $i['qtd'],
+                    'qtd' => $i['qtd'],
+                    'venda_id' => $venda->id,
+                    'produto_id' => $i['id']
+                ]);
+            }
+
+            // Atualiza Faturas/Duplicatas da venda
+            $venda->fatura()->delete(); // Remove as faturas antigas
+            foreach ($vendaData['fatura'] as $f) {
+                $produto = Produtos::find($i['id']); // Assumindo que fatura precisa de produto_id
+                $valorIPI = $produto ? floatval(str_replace(",", ".", $f['valor'])) * ($produto->perc_ipi / 100) : 0;
+
+                Fatura::create([
+                    'valor' => str_replace(",", ".", $f['valor']),
+                    'venda_id' => $venda->id,
+                    'vencimento' => \Carbon\Carbon::parse(str_replace("/", "-", $f['vencimento']))->format('Y-m-d'),
+                    'forma_pagamento' => $f['forma_pagamento'],
+                    'status' => "Aberto",
+                    'valor_ipi' => $valorIPI + str_replace(",", ".", $f['valor'])
+                ]);
+            }
+
+            return response()->json(['message' => 'Venda atualizada com sucesso', 'venda_ID' => $venda->id], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Erro ao atualizar venda', 'error' => $e->getMessage()], 500);
         }
     }
+
+
 
     public function getBydId($id)
     {

@@ -69,7 +69,7 @@ Route::group(['prefix' => 'venda'], function () {
     Route::get('/', [VendasController::class, 'getAllVendas']);
     Route::get('/{id}', [VendasController::class, 'getBydId']);
     Route::post('/new', [VendasController::class, 'save']);
-    Route::patch('/update/{id}', [VendasController::class, 'updateById']);
+    Route::put('/update/{id}', [VendasController::class, 'updateById']);
     Route::delete('/delete/{id}', [VendasController::class, 'deleteById']);
 });
 

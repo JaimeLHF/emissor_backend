@@ -10,7 +10,7 @@ class ItensVenda extends Model
     use HasFactory;
 
     protected $fillable = [
-        'venda_id', 'produto_id', 'qtd', 'valor'
+        'venda_id', 'produto_id', 'qtd', 'valor', 'valorTotal'
     ];
 
 

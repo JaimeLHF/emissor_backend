@@ -10,7 +10,7 @@ class Fatura extends Model
     use HasFactory;
 
     protected $fillable = [
-        'venda_id', 'forma_pagamento', 'valor', 'vencimento', 'status','valor_ipi'
+        'venda_id', 'forma_pagamento', 'valor', 'valorTotal', 'vencimento', 'status', 'valor_ipi'
     ];
 
     public static function rules()
@@ -18,8 +18,9 @@ class Fatura extends Model
         return [
             'venda_id' => 'required|exists:venda,id',
             'forma_pagamento' => 'required|string',
-            'vencimento' => 'required|date',       
+            'vencimento' => 'required|date',
             'status' => 'required|string',
+            'valor' => 'required|numeric',
             'valor_ipi' => 'required|numeric',
         ];
     }
