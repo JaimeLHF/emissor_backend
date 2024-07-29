@@ -23,7 +23,7 @@ jobs:
         run: |
           php artisan config:clear
           php artisan cache:clear
-          
+
       - name: Directory Permissions
         run: chmod 755 -R storage bootstrap/cache
 
@@ -41,4 +41,3 @@ jobs:
             cd api.fuckingsystem.shop
             git pull
             php composer.phar install
-            php artisan migrate --force
