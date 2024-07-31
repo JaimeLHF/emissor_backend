@@ -49,7 +49,7 @@ Route::group(['prefix' => 'emitente'], function () {
     Route::get('/{id}', [EmitenteController::class, 'getBydId']);
     Route::post('/new', [EmitenteController::class, 'newEmitente']);
     Route::put('/update/{id}', [EmitenteController::class, 'updateBydId']);
-    Route::delete('/delete/{id}', [EmitenteController::class, 'deleteBydId']);
+    Route::delete('/delete/{id}', [EmitenteController::class, 'deleteById']);
     Route::get('/{id}/download-certificado', [EmitenteController::class, 'downloadCertificado']);
 });
 
