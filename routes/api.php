@@ -50,6 +50,7 @@ Route::group(['prefix' => 'emitente'], function () {
     Route::post('/new', [EmitenteController::class, 'newEmitente']);
     Route::put('/update/{id}', [EmitenteController::class, 'updateBydId']);
     Route::delete('/delete/{id}', [EmitenteController::class, 'deleteBydId']);
+    Route::get('/{id}/download-certificado', [EmitenteController::class, 'downloadCertificado']);
 });
 
 //Item Venda

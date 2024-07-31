@@ -33,7 +33,7 @@ class EmitenteController extends Controller
                 return response()->json(['message' => 'Emitente não econtrado!'], 404);
             }
 
-            $emitente->makeHidden(['certificado']);
+            // $emitente->makeHidden(['certificado']);
 
             return response()->json($emitente, 200);
         } catch (\Exception $e) {
@@ -52,7 +52,7 @@ class EmitenteController extends Controller
             }
 
             $emitente->update($request->all());
-            
+
             return response()->json($emitente, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
@@ -61,18 +61,23 @@ class EmitenteController extends Controller
 
     public function newEmitente(Request $request)
     {
-
         try {
-
+            // Valida os dados do request
             $request->validate(Emitente::rules());
 
+            // Cria o emitente sem o certificado
+            $emitente = Emitente::create($request->except('certificado'));
+
+            // Verifica se o certificado foi enviado
             if ($request->hasFile('certificado')) {
                 $file = $request->file('certificado');
-                $ctx = file_get_contents($file);
-                $request->merge(['certificado' => $ctx]);
-            }
+                $filename = $emitente->id . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('certificados'), $filename);
 
-            $emitente = Emitente::create($request->all());
+                // Atualiza o caminho do certificado no emitente
+                $emitente->certificado = 'certificados/' . $filename;
+                $emitente->save();
+            }
 
             return response()->json($emitente, 200);
         } catch (\Exception $e) {
@@ -80,18 +85,53 @@ class EmitenteController extends Controller
         }
     }
 
-    public function deleteBydId($id)
+    public function deleteById($id)
     {
         try {
             $emitente = Emitente::find($id);
 
             if (!$emitente) {
-                return response()->json(['message' => 'Emitente não econtrado!'], 404);
+                return response()->json(['message' => 'Emitente não encontrado!'], 404);
             }
 
+            // Caminho do certificado
+            $certificadoPath = public_path($emitente->certificado);
+
+            // Deleta o emitente
             $emitente->delete();
 
+            // Verifica se o arquivo de certificado existe e deleta
+            if (file_exists($certificadoPath)) {
+                unlink($certificadoPath);
+            }
+
             return response()->json(['message' => 'Emitente deletado com sucesso!'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function downloadCertificado($id)
+    {
+        try {
+            // Encontra o emitente pelo ID
+            $emitente = Emitente::findOrFail($id);
+
+            // Verifica se o emitente tem um certificado
+            if (!$emitente->certificado) {
+                return response()->json(['message' => 'Certificado não encontrado para este emitente.'], 404);
+            }
+
+            // Caminho do certificado
+            $path = public_path($emitente->certificado);
+
+            // Verifica se o arquivo existe
+            if (!file_exists($path)) {
+                return response()->json(['message' => 'Arquivo de certificado não encontrado.'], 404);
+            }
+
+            // Retorna o arquivo para download
+            return response()->download($path);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
         }
