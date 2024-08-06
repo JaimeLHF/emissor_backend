@@ -71,7 +71,6 @@ class VendasController extends Controller
         }
     }
 
-    //GET todos os itens da venda - com os produtos
     public function getAllVendas()
     {
         try {
@@ -155,8 +154,6 @@ class VendasController extends Controller
         }
     }
 
-
-
     public function getBydId($id)
     {
         try {
@@ -172,7 +169,6 @@ class VendasController extends Controller
             return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
         }
     }
-
 
     public function deleteById($id)
     {

@@ -229,11 +229,11 @@ class NFeService
 
             $stdProd->uCom = $i->produto->und_venda;
             $stdProd->qCom = $i->qtd; //ajustar quantidade com fator de conversão M² para Pallet por exemplo
-            $stdProd->vUnCom = $this->format($i->valor); //ajustar valor com fator de conversão M² para Pallet por exemplo
-            $stdProd->vProd = $this->format(($i->qtd * $i->valor));
+            $stdProd->vUnCom = $i->valor; //ajustar valor com fator de conversão M² para Pallet por exemplo
+            $stdProd->vProd = $i->qtd * $i->valor;
             $stdProd->uTrib = $i->produto->und_venda;
             $stdProd->qTrib = $i->qtd;
-            $stdProd->vUnTrib = $this->format($i->valor);
+            $stdProd->vUnTrib = $i->valor;
             $stdProd->indTot = 1; //verificar
             $nfe->tagprod($stdProd);
 
