@@ -89,5 +89,6 @@ Route::group(['prefix' => 'nfe'], function () {
     Route::get('/consulta/{id}', [NFeController::class, 'consultaNFe']);
     Route::post('/transmitir', [NFeController::class, 'transmitir']);
     Route::post('/cancelar', [NFeController::class, 'cancelarNFe']);
+    Route::get('/imprimirCCe/{id}', [NFeController::class, 'imprimirCCe']);
     Route::post('/cartaCorrecao', [NFeController::class, 'cartaCorrecao']);
 });

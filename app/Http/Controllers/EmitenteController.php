@@ -65,8 +65,12 @@ class EmitenteController extends Controller
             // Valida os dados do request
             $request->validate(Emitente::rules());
 
+            // Define o valor padrão de sequencia_evento
+            $data = $request->all();
+            $data['sequencia_evento'] = $data['sequencia_evento'] ?? 1;
+
             // Cria o emitente sem o certificado
-            $emitente = Emitente::create($request->except('certificado'));
+            $emitente = Emitente::create($data);
 
             // Verifica se o certificado foi enviado
             if ($request->hasFile('certificado')) {
