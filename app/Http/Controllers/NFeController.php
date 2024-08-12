@@ -158,7 +158,7 @@ class NFeController extends Controller
                         $venda->motivo_rejeitado = null;
                         $venda->chave = $result['chave'];
                         $venda->status = 'Aprovado';
-                        $venda->motivo_rejeitado = ''; 
+                        $venda->motivo_rejeitado = '';
                         $venda->numero_nfe = $result['nNf'];
                         XML::create(
                             [
@@ -168,7 +168,7 @@ class NFeController extends Controller
                                 'tipo' => 'NFe',
                                 'xml' => $resultado['sucesso']
 
-                            ]   
+                            ]
                         );
 
                         $venda->save();
@@ -378,7 +378,7 @@ class NFeController extends Controller
                 $venda = Vendas::with('xml')->find($id);
                 $xmlContent  = $venda->xml->first()->xml;
             } catch (\Exception $e) {
-                return response()->json('XML da venda ' . $venda->id . ' não encontrado',  404);
+                return response()->json(['message' => "XML Não encontrado"], 500);
             }
             $fileName = 'venda_' . $venda->id . '.xml';
 
@@ -431,57 +431,6 @@ class NFeController extends Controller
             /*  $danfe->depecNumber('123456789'); */
             //Configura a posicao da logo
             $danfe->logoParameters($logo, 'C', false);
-            //Gera o PDF
-            $pdf = $danfe->render($logo);
-            header('Content-Type: application/pdf');
-            echo $pdf;
-        } catch (InvalidArgumentException $e) {
-            echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
-        }
-    }
-
-    public function imprimirNota($numero_nfe)
-    {
-        date_default_timezone_set('America/Sao_Paulo');
-        $venda = Vendas::with('xml')->where('numero_nfe', $numero_nfe)->first();
-
-        $xmlContent  = $venda->xml->first()->xml;
-
-        $xml = $xmlContent;
-        $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents(realpath('../public/drd_logo.jpg')));
-
-        try {
-
-            $danfe = new Danfe($xml);
-            $danfe->exibirTextoFatura = false;
-            $danfe->exibirPIS = false;
-            $danfe->exibirIcmsInterestadual = false;
-            $danfe->exibirValorTributos = false;
-            $danfe->descProdInfoComplemento = false;
-            $danfe->exibirNumeroItemPedido = false;
-            $danfe->setOcultarUnidadeTributavel(true);
-            $danfe->obsContShow(false);
-            $danfe->printParameters(
-                $orientacao = 'P',
-                $papel = 'A4',
-                $margSup = 2,
-                $margEsq = 2
-            );
-            $danfe->logoParameters($logo, $logoAlign = 'C', $mode_bw = false);
-            $danfe->setDefaultFont($font = 'times');
-            $danfe->setDefaultDecimalPlaces(4);
-            $danfe->debugMode(false);
-            $danfe->creditsIntegratorFooter('by FuckingSystem');
-            //$danfe->epec('891180004131899', '14/08/2018 11:24:45'); //marca como autorizada por EPEC
-
-            // Caso queira mudar a configuracao padrao de impressao
-            /*  $this->printParameters( $orientacao = '', $papel = 'A4', $margSup = 2, $margEsq = 2 ); */
-            // Caso queira sempre ocultar a unidade tributável
-            /*  $this->setOcultarUnidadeTributavel(true); */
-            //Informe o numero DPEC
-            /*  $danfe->depecNumber('123456789'); */
-            //Configura a posicao da logo
-            // $danfe->logoParameters($logo, 'C', false);
             //Gera o PDF
             $pdf = $danfe->render($logo);
             header('Content-Type: application/pdf');

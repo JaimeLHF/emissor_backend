@@ -85,10 +85,9 @@ Route::group(['prefix' => 'nfe'], function () {
     Route::get('/gerarXml/{id}', [NFeController::class, 'gerarXml']);
     Route::get('/download/{id}', [NFeController::class, 'download']);
     Route::get('/imprimir/{id}', [NFeController::class, 'imprimir']);
-    Route::get('/imprimirNota/{numero_nfe}', [NFeController::class, 'imprimirNota']);
     Route::get('/imprimirCancelamento/{id}', [NFeController::class, 'imprimirCancelamento']);
-    Route::get('/contracnpj', [NFeController::class, 'contracnpj']);
     Route::get('/consulta/{id}', [NFeController::class, 'consultaNFe']);
     Route::post('/transmitir', [NFeController::class, 'transmitir']);
     Route::post('/cancelar', [NFeController::class, 'cancelarNFe']);
+    Route::post('/cartaCorrecao', [NFeController::class, 'cartaCorrecao']);
 });
