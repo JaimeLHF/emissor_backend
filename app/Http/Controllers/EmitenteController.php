@@ -41,6 +41,28 @@ class EmitenteController extends Controller
         }
     }
 
+    /**
+     * Atualiza o emitente ativo e define os outros como inativos.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function atualizarEmitenteAtivo($id)
+    {
+        // Define todos os emitentes como inativos
+        Emitente::where('ativo', true)->update(['ativo' => false]);
+
+        // Define o emitente específico como ativo
+        $emitente = Emitente::findOrFail($id);
+        $emitente->ativo = true;
+        $emitente->save();
+
+        return response()->json([
+            'message' => 'Emitente atualizado com sucesso.',
+            'emitente' => $emitente
+        ]);
+    }
+
 
     public function updateBydId(Request $request, $id)
     {

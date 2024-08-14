@@ -13,7 +13,7 @@ class Emitente extends Model
         'razao_social', 'nome_fantasia', 'situacao_tributaria', 'rua', 'numero_endereco', 'bairro', 'cep',
         'municipio', 'uf', 'codigo_uf', 'pais', 'codigo_pais', 'codigo_municipio', 'complemento', 'logradouro', 'ultimo_numero_nfe',
         'numero_serie_nfe', 'cpf_cnpj', 'ie_rg', 'fone', 'certificado', 'senha', 'percentual_aliquota_icms',
-        'ambiente',
+        'ambiente', 'ativo'
     ];
 
     public static function rules()
