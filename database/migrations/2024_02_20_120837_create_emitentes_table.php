@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('complemento')->nullable();
             $table->integer('ultimo_numero_nfe');
             $table->integer('numero_serie_nfe');
-            $table->integer('sequencia_evento');
+            $table->integer('sequencia_evento')->default(1)->change();
             $table->string('cpf_cnpj');
             $table->string('ie_rg')->nullable();
             $table->string('im')->nullable();
@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('logradouro')->nullable();
             $table->float('percentual_aliquota_icms')->nullable();
             $table->integer('codigo_uf');
+            $table->boolean('ativo');
             $table->timestamps();
         });
     }

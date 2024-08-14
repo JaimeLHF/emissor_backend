@@ -20,7 +20,7 @@ class NFeController extends Controller
     public function contingency()
     {
 
-        $emitente = Emitente::first();
+        $emitente = Emitente::where('ativo', 1)->first();
 
         $cnpj = str_replace(".", "", $emitente->cpf_cnpj);
         $cnpj = str_replace("/", "", $cnpj);
@@ -81,7 +81,7 @@ class NFeController extends Controller
     {
         try {
             $venda = Vendas::with('cliente', 'itens.produto', 'fatura')->find($id);
-            $emitente = Emitente::first();
+            $emitente = Emitente::where('ativo', 1)->first();
 
             if ($emitente == null) {
                 return response()->json(['message' => 'Emitente não encontrado'], 404);
@@ -123,7 +123,7 @@ class NFeController extends Controller
         try {
 
             $venda = Vendas::with('xml')->find($request->venda_id);
-            $emitente = Emitente::first();
+            $emitente = Emitente::where('ativo', 1)->first();
 
             if ($emitente == null) {
                 return response()->json('Configure o emitente', 404);
@@ -198,7 +198,7 @@ class NFeController extends Controller
         try {
 
             $venda = Vendas::with('xml')->find($request->venda_id);
-            $emitente = Emitente::first();
+            $emitente = Emitente::where('ativo', 1)->first();
             $xml_venda = XML::where('venda_id', $venda->id)->where('tipo', 'NFe')->first();
 
             if ($emitente == null) {
@@ -252,7 +252,7 @@ class NFeController extends Controller
     {
         try {
             $venda = Vendas::with('xml')->find($request->venda_id);
-            $emitente = Emitente::first();
+            $emitente = Emitente::where('ativo', 1)->first();
             $xml_venda = XML::where('venda_id', $venda->id)->first();
 
             if ($emitente == null) {
@@ -310,7 +310,7 @@ class NFeController extends Controller
     public function inutilizarNfe(Request $request)
     {
         try {
-            $emitente = Emitente::first();
+            $emitente = Emitente::where('ativo', 1)->first();
 
             if ($emitente == null) {
                 return response()->json('Configure o emitente', 404);
@@ -345,7 +345,7 @@ class NFeController extends Controller
     public function consultaNFe($id)
     {
         $venda = Vendas::with('cliente', 'itens.produto', 'fatura')->find($id);
-        $emitente = Emitente::first();
+        $emitente = Emitente::where('ativo', 1)->first();
 
         $cnpj = str_replace(".", "", $emitente->cpf_cnpj);
         $cnpj = str_replace("/", "", $cnpj);
@@ -446,7 +446,7 @@ class NFeController extends Controller
         $venda = Vendas::with('xml')->find($id);
         $xmlContent  = $venda->xml->where('tipo', 'CCe')->first()->xml;
 
-        $emitente = Emitente::first();
+        $emitente = Emitente::where('ativo', 1)->first();
 
         $cnpj = str_replace(".", "", $emitente->cpf_cnpj);
         $cnpj = str_replace("/", "", $cnpj);
@@ -473,12 +473,13 @@ class NFeController extends Controller
 
             $daevento = new Daevento($xml, $nfe_service);
             $daevento->debugMode(true);
-            $daevento->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
+            $daevento->creditsIntegratorFooter('Fucking System - http://www.fuckingsystem.shop');
             $daevento->printParameters('P', 'A4');
             $daevento->logoParameters($logo, 'R');
             $pdf = $daevento->render();
             header('Content-Type: application/pdf');
             echo $pdf;
+
         } catch (InvalidArgumentException $e) {
             echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
         }

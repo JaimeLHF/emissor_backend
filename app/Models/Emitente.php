@@ -12,7 +12,7 @@ class Emitente extends Model
     protected $fillable = [
         'razao_social', 'nome_fantasia', 'situacao_tributaria', 'rua', 'numero_endereco', 'bairro', 'cep',
         'municipio', 'uf', 'codigo_uf', 'pais', 'codigo_pais', 'codigo_municipio', 'complemento', 'logradouro', 'ultimo_numero_nfe',
-        'numero_serie_nfe', 'sequencia_evento', 'cpf_cnpj', 'ie_rg', 'fone', 'certificado', 'senha', 'percentual_aliquota_icms',
+        'numero_serie_nfe', 'cpf_cnpj', 'ie_rg', 'fone', 'certificado', 'senha', 'percentual_aliquota_icms',
         'ambiente',
     ];
 
@@ -36,13 +36,12 @@ class Emitente extends Model
             'logradouro' => 'nullable|string|max:255',
             'ultimo_numero_nfe' => 'required|integer',
             'numero_serie_nfe' => 'required|integer',
-            'sequencia_evento' => 'required|integer',
             'cpf_cnpj' => 'required|string|max:20',
             'ie_rg' => 'string|string|max:20',
             'fone' => 'string|string|max:20',
             'certificado' => 'required|file',
             'senha' => 'required|string',
-            'percentual_aliquota_icms' => 'required|numeric',
+            'percentual_aliquota_icms' => 'numeric',
             'ambiente' => 'required|integer',
         ];
     }
