@@ -95,4 +95,6 @@ Route::group(['prefix' => 'nfe'], function () {
     Route::post('/cartaCorrecao', [NFeController::class, 'cartaCorrecao']);
 });
 
-Route::apiResource('led_status', LedStatusController::class);
+Route::group(['prefix' => 'led_status'], function () {
+    Route::get('/', [LedStatusController::class, 'index']);
+});
