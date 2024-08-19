@@ -20,7 +20,7 @@ class Emitente extends Model
     {
         return [
             'razao_social' => 'required|string|max:255',
-            'nome_fantasia' => 'required|string|max:255',
+            'nome_fantasia' => 'string|max:255',
             'situacao_tributaria' => 'required|integer',
             'rua' => 'required|string|max:255',
             'numero_endereco' => 'required|string|max:50',
