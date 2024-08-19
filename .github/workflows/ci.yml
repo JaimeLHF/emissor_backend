@@ -27,6 +27,20 @@ jobs:
       - name: Directory Permissions
         run: chmod 755 -R storage bootstrap/cache
 
+      - name: Clean Up Remote Repository
+        if: ${{ success() }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: |
+            cd domains/api.fuckingsystem.shop
+            git reset --hard
+            git clean -fd
+
       - name: Deploy to Server
         if: ${{ success() }}
         uses: appleboy/ssh-action@master
@@ -37,7 +51,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd domains
-            cd api.fuckingsystem.shop
+            cd domains/api.fuckingsystem.shop
             git pull
             php composer.phar install
