@@ -216,6 +216,7 @@ class NFeService
             $stdProd->cEAN = $cod ? $i->produto->codigo_barras : 'SEM GTIN';
             $stdProd->cEANTrib = $cod ? $i->produto->codigo_barras : 'SEM GTIN';
             $stdProd->cProd = $i->produto->id;
+            $stdProd->xPed = $venda->xPed != '' ? $venda->xPed : '';
             if ($i->produto->acabamento_id !== null) {
                 $stdProd->xProd = $this->retiraAcentos($i->produto->nome) . ' ' . $this->retiraAcentos($i->produto->acabamento->nome);
             } else
@@ -456,11 +457,12 @@ class NFeService
             $nfe->tagtransporta($stdTransportdora);
         }
 
-        // $stdVol = new \stdClass();
-        // $stdVol->qVol = 26;
-        // $stdVol->pesoL = 520;
-        // $stdVol->pesoB = 520;
-        // $nfe->tagvol($stdVol);
+        $stdVol = new \stdClass();
+        $stdVol->qVol = 128;
+        $stdVol->pesoL = 2071.6;
+        $stdVol->pesoB = 2071.6;
+        $stdVol->esp = 'CAIXA';
+        $nfe->tagvol($stdVol);
 
         ////////////////////////////////////////////////////////////////////
 

@@ -97,5 +97,9 @@ Route::group(['prefix' => 'nfe'], function () {
 
 Route::group(['prefix' => 'led_status'], function () {
     Route::get('/', [LedStatusController::class, 'index']);
-    Route::post('/new', [LedStatusController::class, 'show']);
+    Route::get('/{id}', [LedStatusController::class, 'show']);
+    Route::post('/new', [LedStatusController::class, 'store']);
+    Route::put('/update', [LedStatusController::class, 'update']);
 });
+
+Route::apiResource('/', LedStatusController::class);

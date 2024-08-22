@@ -10,13 +10,13 @@ class LedStatusController extends Controller
     public function index()
     {
         $ledStatuses = LedStatus::all();
-        return response()->json($ledStatuses);
+        return response($ledStatuses);
     }
 
     public function show($id)
     {
         $ledStatus = LedStatus::findOrFail($id);
-        return response()->json($ledStatus);
+        return response($ledStatus);
     }
 
     public function store(Request $request)
