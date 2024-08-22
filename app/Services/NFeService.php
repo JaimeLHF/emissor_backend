@@ -457,6 +457,8 @@ class NFeService
             $nfe->tagtransporta($stdTransportdora);
         }
 
+        // ALTERAR DEPOIS
+
         $stdVol = new \stdClass();
         $stdVol->qVol = 128;
         $stdVol->pesoL = 2071.6;
