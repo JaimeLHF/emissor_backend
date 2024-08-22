@@ -422,7 +422,7 @@ class NFeService
         //ICMS TOTAL
         $stdICMSTot = new \stdClass();
         $stdICMSTot->vProd = $this->format($venda->valorTotal);
-        $stdICMSTot->vBC =  $this->format($totalVProd);
+        $stdICMSTot->vBC = $this->format($totalVProd);
         $stdICMSTot->vICMS = $emitente->situacao_tributaria != 3 && $emitente->situacao_tributaria != 2 ? 0.00 : $this->format($venda->valorTotal) * ($stdICMS->pICMS / 100);
         $stdICMSTot->vICMSDeson = 0.00;
         $stdICMSTot->vBCST = 0.00;
@@ -743,3 +743,4 @@ class NFeService
         return number_format((float) $number, $dec, ".", "");
     }
 }
+1
