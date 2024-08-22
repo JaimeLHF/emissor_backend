@@ -34,13 +34,6 @@ class LedStatusController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'led1' => 'required|integer',
-            'led2' => 'required|integer',
-            'led3' => 'required|integer',
-            'led4' => 'required|integer',
-        ]);
-
         $ledStatus = LedStatus::findOrFail($id);
         $ledStatus->update($request->all());
         return response()->json($ledStatus);
