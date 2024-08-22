@@ -460,10 +460,10 @@ class NFeService
         // ALTERAR DEPOIS
 
         $stdVol = new \stdClass();
-        $stdVol->qVol = 128;
-        $stdVol->pesoL = 2071.6;
-        $stdVol->pesoB = 2071.6;
-        $stdVol->esp = 'CAIXA';
+        $stdVol->qVol = $venda->qVol;
+        $stdVol->pesoL = $venda->peso_total;
+        $stdVol->pesoB = $venda->peso_total;
+        $stdVol->esp = $venda->especie;
         $nfe->tagvol($stdVol);
 
         ////////////////////////////////////////////////////////////////////
