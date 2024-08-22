@@ -228,13 +228,13 @@ class NFeService
 
             $stdProd->CFOP = $emitente->uf != $venda->cliente->uf ? $i->produto->cfop_externo : $i->produto->cfop_interno;
 
-            $stdProd->uCom = $this->format($i->produto->und_venda);
-            $stdProd->qCom = $this->format($i->qtd); //ajustar quantidade com fator de conversão M² para Pallet por exemplo
-            $stdProd->vUnCom = $this->format($i->valor); //ajustar valor com fator de conversão M² para Pallet por exemplo
-            $stdProd->vProd = $i->qtd * $this->format($i->valor);
+            $stdProd->uCom = $i->produto->und_venda;
+            $stdProd->qCom = $i->qtd; //ajustar quantidade com fator de conversão M² para Pallet por exemplo
+            $stdProd->vUnCom = $i->valor; //ajustar valor com fator de conversão M² para Pallet por exemplo
+            $stdProd->vProd = $i->qtd * $i->valor;
             $stdProd->uTrib = $i->produto->und_venda;
-            $stdProd->qTrib = $this->format($i->qtd);
-            $stdProd->vUnTrib = $this->format($i->valor);
+            $stdProd->qTrib = $i->qtd;
+            $stdProd->vUnTrib = $i->valor;
             $stdProd->indTot = 1; //verificar
             $nfe->tagprod($stdProd);
 
@@ -422,7 +422,7 @@ class NFeService
         //ICMS TOTAL
         $stdICMSTot = new \stdClass();
         $stdICMSTot->vProd = $this->format($venda->valorTotal);
-        $stdICMSTot->vBC =  $this->format($venda->valorTotal);
+        $stdICMSTot->vBC =  $this->format($totalVProd);
         $stdICMSTot->vICMS = $emitente->situacao_tributaria != 3 && $emitente->situacao_tributaria != 2 ? 0.00 : $this->format($venda->valorTotal) * ($stdICMS->pICMS / 100);
         $stdICMSTot->vICMSDeson = 0.00;
         $stdICMSTot->vBCST = 0.00;
