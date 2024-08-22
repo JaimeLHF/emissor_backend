@@ -92,15 +92,5 @@ Route::group(['prefix' => 'nfe'], function () {
     Route::post('/cancelar', [NFeController::class, 'cancelarNFe']);
     Route::get('/imprimirCCe/{id}', [NFeController::class, 'imprimirCCe']);
     Route::post('/cartaCorrecao', [NFeController::class, 'cartaCorrecao']);
-<<<<<<< HEAD
 });
 
-Route::group(['prefix' => 'led_status'], function () {
-    Route::get('/', [LedStatusController::class, 'index']);
-	Route::get('/{id}', [LedStatusController::class, 'show']);
-	Route::put('/update/{id}', [LedStatusController::class, 'update']);
-    Route::post('/new', [LedStatusController::class, 'store']);
-});
-=======
-});
->>>>>>> bfecfb47899702aa99055d28056ab73bb3799c5f
