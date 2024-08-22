@@ -203,7 +203,7 @@ class NFeService
         $nfe->tagenderDest($stdEnderDest);
 
         ////////////////////////////////////////////////////////////////////
-        $totalVProd = 0.00;
+        $totalVProd = 0.0000;
         //ITENS DA NFE
         foreach ($venda->itens as $key => $i) {
 
@@ -230,11 +230,11 @@ class NFeService
 
             $stdProd->uCom = $i->produto->und_venda;
             $stdProd->qCom = $i->qtd; //ajustar quantidade com fator de conversão M² para Pallet por exemplo
-            $stdProd->vUnCom = $i->valor; //ajustar valor com fator de conversão M² para Pallet por exemplo
-            $stdProd->vProd = $i->qtd * $i->valor;
+            $stdProd->vUnCom = number_format($i->qtd * $i->valor, 4, '.', ''); //ajustar valor com fator de conversão M² para Pallet por exemplo
+            $stdProd->vProd = $i->qtd * number_format($i->qtd * $i->valor, 4, '.', '');
             $stdProd->uTrib = $i->produto->und_venda;
             $stdProd->qTrib = $i->qtd;
-            $stdProd->vUnTrib = $i->valor;
+            $stdProd->vUnTrib = number_format($i->qtd * $i->valor, 4, '.', '');
             $stdProd->indTot = 1; //verificar
             $nfe->tagprod($stdProd);
 
@@ -739,7 +739,7 @@ class NFeService
         return preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/", "/(ç)/"), explode(" ", "a A e E i I o O u U n N c"), $texto);
     }
 
-    public function format($number, $dec = 2)
+    public function format($number, $dec = 4)
     {
         return number_format((float) $number, $dec, ".", "");
     }
