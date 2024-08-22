@@ -422,7 +422,7 @@ class NFeService
         //ICMS TOTAL
         $stdICMSTot = new \stdClass();
         $stdICMSTot->vProd = $this->format($venda->valorTotal);
-        $stdICMSTot->vBC =  $this->format($totalVProd);
+        $stdICMSTot->vBC =  $this->format($venda->valorTotal);
         $stdICMSTot->vICMS = $emitente->situacao_tributaria != 3 && $emitente->situacao_tributaria != 2 ? 0.00 : $this->format($venda->valorTotal) * ($stdICMS->pICMS / 100);
         $stdICMSTot->vICMSDeson = 0.00;
         $stdICMSTot->vBCST = 0.00;
@@ -738,7 +738,7 @@ class NFeService
         return preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/", "/(ç)/"), explode(" ", "a A e E i I o O u U n N c"), $texto);
     }
 
-    public function format($number, $dec = 4)
+    public function format($number, $dec = 2)
     {
         return number_format((float) $number, $dec, ".", "");
     }
