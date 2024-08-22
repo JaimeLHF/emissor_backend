@@ -36,7 +36,10 @@ class VendasController extends Controller
                 'status' => 'Novo',
                 'infCpl' => $venda['infCpl'],
                 'transp_id' => $venda['transp_id'],
-                'xPed' => $venda['xPed']
+                'peso_total' => $venda['peso_total'],
+                'xPed' => $venda['xPed'],
+                'especie' => $venda['especie'],
+                'qVol' => $venda['qVol']
             ]);
 
             //Itens da venda

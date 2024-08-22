@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('modFrete')->nullable();
             $table->string('natOp');
             $table->string('xPed')->nullable();
+            $table->float('qVol')->nullable();
+            $table->string('especie')->nullable();
             $table->string('infCpl')->nullable();
             $table->string('motivo_rejeitado')->nullable();
             $table->integer('finNFe');
