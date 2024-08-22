@@ -35,7 +35,8 @@ class VendasController extends Controller
                 'vFrete' => $venda['vFrete'],
                 'status' => 'Novo',
                 'infCpl' => $venda['infCpl'],
-                'transp_id' => $venda['transp_id']
+                'transp_id' => $venda['transp_id'],
+                'xPed' => $venda['xPed']
             ]);
 
             //Itens da venda
