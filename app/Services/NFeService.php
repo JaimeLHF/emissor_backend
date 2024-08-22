@@ -228,13 +228,13 @@ class NFeService
 
             $stdProd->CFOP = $emitente->uf != $venda->cliente->uf ? $i->produto->cfop_externo : $i->produto->cfop_interno;
 
-            $stdProd->uCom = $i->produto->und_venda;
-            $stdProd->qCom = $i->qtd; //ajustar quantidade com fator de conversão M² para Pallet por exemplo
-            $stdProd->vUnCom = $i->valor; //ajustar valor com fator de conversão M² para Pallet por exemplo
-            $stdProd->vProd = $i->qtd * $i->valor;
+            $stdProd->uCom = $this->format($i->produto->und_venda);
+            $stdProd->qCom = $this->format($i->qtd); //ajustar quantidade com fator de conversão M² para Pallet por exemplo
+            $stdProd->vUnCom = $this->format($i->valor); //ajustar valor com fator de conversão M² para Pallet por exemplo
+            $stdProd->vProd = $i->qtd * $this->format($i->valor);
             $stdProd->uTrib = $i->produto->und_venda;
-            $stdProd->qTrib = $i->qtd;
-            $stdProd->vUnTrib = $i->valor;
+            $stdProd->qTrib = $this->format($i->qtd);
+            $stdProd->vUnTrib = $this->format($i->valor);
             $stdProd->indTot = 1; //verificar
             $nfe->tagprod($stdProd);
 
@@ -738,7 +738,7 @@ class NFeService
         return preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/", "/(ç)/"), explode(" ", "a A e E i I o O u U n N c"), $texto);
     }
 
-    public function format($number, $dec = 2)
+    public function format($number, $dec = 4)
     {
         return number_format((float) $number, $dec, ".", "");
     }
