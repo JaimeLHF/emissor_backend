@@ -5,7 +5,6 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmitenteController;
 use App\Http\Controllers\FaturaController;
 use App\Http\Controllers\ItensVendaController;
-use App\Http\Controllers\LedStatusController;
 use App\Http\Controllers\NFeController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\TransportadoraController;
