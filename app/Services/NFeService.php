@@ -431,7 +431,7 @@ class NFeService
         $stdICMSTot->vSeg = 0.00;
         $stdICMSTot->vDesc = 0.00;
         $stdICMSTot->vII = 0.00;
-        $stdICMSTot->vIPI = $stdICMSTot->vBC * ($i->produto->perc_ipi / 100);
+        $stdICMSTot->vIPI = $this->format($stdICMSTot->vBC * ($i->produto->perc_ipi / 100));
         $stdICMSTot->vPIS = 0.00; // Faz calculo automatico no xml
         $stdICMSTot->vCOFINS = 0.00; // Faz calculo automatico no xml
         $stdICMSTot->vOutro = 0.00;
@@ -457,7 +457,7 @@ class NFeService
             $nfe->tagtransporta($stdTransportdora);
         }
 
-        // ALTERAR DEPOIS
+        // VOLUMES
 
         $stdVol = new \stdClass();
         $stdVol->qVol = $venda->qVol;
