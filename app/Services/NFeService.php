@@ -743,4 +743,3 @@ class NFeService
         return number_format((float) $number, $dec, ".", "");
     }
 }
-1
