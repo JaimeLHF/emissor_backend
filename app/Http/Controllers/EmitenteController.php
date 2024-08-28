@@ -69,37 +69,45 @@ class EmitenteController extends Controller
         try {
             // Encontra o emitente pelo ID
             $emitente = Emitente::find($id);
-    
+
             if (!$emitente) {
                 return response()->json(['message' => 'Emitente não encontrado!'], 404);
             }
-    
+
             // Atualiza os dados do emitente com exceção do certificado
             $emitente->update($request->except('certificado'));
-    
+
             // Verifica se um novo certificado foi enviado
             if ($request->hasFile('certificado')) {
                 // Deleta o certificado antigo se existir
                 if ($emitente->certificado && file_exists(public_path($emitente->certificado))) {
                     unlink(public_path($emitente->certificado));
                 }
-    
+
                 // Salva o novo certificado
                 $file = $request->file('certificado');
-                $filename = $emitente->id . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('certificados'), $filename);
-    
+                $filename = 'certificado_' . $emitente->id . '.' . $file->getClientOriginalExtension();
+
+                // Verifique se o diretório existe ou crie se necessário
+                $destinationPath = public_path('certificados');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Move o arquivo para o diretório de certificados
+                $file->move($destinationPath, $filename);
+
                 // Atualiza o caminho do certificado no emitente
                 $emitente->certificado = 'certificados/' . $filename;
                 $emitente->save();
             }
-    
+
             return response()->json($emitente, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
         }
     }
-    
+
     public function newEmitente(Request $request)
     {
         try {
