@@ -79,6 +79,8 @@ Route::group(['prefix' => 'venda'], function () {
 Route::group(['prefix' => 'trans'], function () {
     Route::get('/', [TransportadoraController::class, 'getAllTransportadoras']);
     Route::post('/new', [TransportadoraController::class, 'newTrans']);
+    Route::delete('/delete/{id}', [TransportadoraController::class, 'deleteById']);
+    Route::put('/update/{id}', [TransportadoraController::class, 'updateById']);
 });
 
 //XML - Transmitir NFe

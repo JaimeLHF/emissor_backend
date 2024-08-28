@@ -9,16 +9,33 @@ class Transportadora extends Model
 {
     use HasFactory;
 
-   
+
     protected $fillable = [
-        'nome', 'razao_social', 'ie_rg', 'im','cpf_cnpj', 'cep', 'rua', 'numero', 'codigo_municipio', 
-        'codigo_pais', 'pais', 'bairro', 'logradouro', 'municipio', 'uf', 'logradouro', 'telefone', 'email', 'complemento'
+        'nome',
+        'razao_social',
+        'ie_rg',
+        'im',
+        'cpf_cnpj',
+        'cep',
+        'rua',
+        'numero',
+        'codigo_municipio',
+        'codigo_pais',
+        'pais',
+        'bairro',
+        'logradouro',
+        'municipio',
+        'uf',
+        'logradouro',
+        'telefone',
+        'email',
+        'complemento'
     ];
 
     public static function rules()
     {
         return [
-            'nome' => 'required|string',
+            'nome' => 'string',
             'cpf_cnpj' => 'required|string',
             'cep' => 'required|string',
             'rua' => 'required|string',
