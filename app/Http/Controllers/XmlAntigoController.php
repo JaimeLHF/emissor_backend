@@ -52,46 +52,46 @@ class XmlAntigoController extends Controller
     // }
 
 
-    public function imprimir($numero_nfe)
-    {
+    // public function imprimir($numero_nfe)
+    // {
 
-        date_default_timezone_set('America/Sao_Paulo');
+    //     date_default_timezone_set('America/Sao_Paulo');
 
-        $venda = XmlAntigo::where('numero_nota', $numero_nfe)->first();
+    //     $venda = XmlAntigo::where('numero_nota', $numero_nfe)->first();
 
-        $xmlContent  = $venda->xml;
+    //     $xmlContent  = $venda->xml;
 
-        $xml = $xmlContent;
-        $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents(realpath('../public/drd_logo.jpg')));
+    //     $xml = $xmlContent;
+    //     $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents(realpath('../public/drd_logo.jpg')));
 
-        try {
+    //     try {
 
-            $danfe = new Danfe($xml);
-            $danfe->exibirTextoFatura = false;
-            $danfe->exibirPIS = false;
-            $danfe->exibirIcmsInterestadual = false;
-            $danfe->exibirValorTributos = false;
-            $danfe->descProdInfoComplemento = false;
-            $danfe->exibirNumeroItemPedido = false;
-            $danfe->setOcultarUnidadeTributavel(true);
-            $danfe->obsContShow(false);
-            $danfe->printParameters(
-                $orientacao = 'P',
-                $papel = 'A4',
-                $margSup = 2,
-                $margEsq = 2
-            );
-            $danfe->logoParameters($logo, $logoAlign = 'C', $mode_bw = false);
-            $danfe->setDefaultFont($font = 'times');
-            $danfe->setDefaultDecimalPlaces(4);
-            $danfe->debugMode(false);
-            $danfe->creditsIntegratorFooter('by FuckingSystem');
+    //         $danfe = new Danfe($xml);
+    //         $danfe->exibirTextoFatura = false;
+    //         $danfe->exibirPIS = false;
+    //         $danfe->exibirIcmsInterestadual = false;
+    //         $danfe->exibirValorTributos = false;
+    //         $danfe->descProdInfoComplemento = false;
+    //         $danfe->exibirNumeroItemPedido = false;
+    //         $danfe->setOcultarUnidadeTributavel(true);
+    //         $danfe->obsContShow(false);
+    //         $danfe->printParameters(
+    //             $orientacao = 'P',
+    //             $papel = 'A4',
+    //             $margSup = 2,
+    //             $margEsq = 2
+    //         );
+    //         $danfe->logoParameters($logo, $logoAlign = 'C', $mode_bw = false);
+    //         $danfe->setDefaultFont($font = 'times');
+    //         $danfe->setDefaultDecimalPlaces(4);
+    //         $danfe->debugMode(false);
+    //         $danfe->creditsIntegratorFooter('by FuckingSystem');
    
-            $pdf = $danfe->render($logo);
-            header('Content-Type: application/pdf');
-            echo $pdf;
-        } catch (InvalidArgumentException $e) {
-            echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
-        }
-    }
+    //         $pdf = $danfe->render($logo);
+    //         header('Content-Type: application/pdf');
+    //         echo $pdf;
+    //     } catch (InvalidArgumentException $e) {
+    //         echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
+    //     }
+    // }
 }
