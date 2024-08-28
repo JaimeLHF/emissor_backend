@@ -25,7 +25,7 @@ class TransportadoraController extends Controller
     }
 
 
-    public function getBydId($id)
+    public function getById($id)
     {
         try {
             $transportadora = Transportadora::find($id);

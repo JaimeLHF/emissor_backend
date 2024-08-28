@@ -78,6 +78,7 @@ Route::group(['prefix' => 'venda'], function () {
 //Transportadoras
 Route::group(['prefix' => 'trans'], function () {
     Route::get('/', [TransportadoraController::class, 'getAllTransportadoras']);
+    Route::get('/{id}', [TransportadoraController::class, 'getById']);
     Route::post('/new', [TransportadoraController::class, 'newTrans']);
     Route::delete('/delete/{id}', [TransportadoraController::class, 'deleteById']);
     Route::put('/update/{id}', [TransportadoraController::class, 'updateById']);
