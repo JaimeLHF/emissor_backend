@@ -48,7 +48,7 @@ Route::group(['prefix' => 'emitente'], function () {
     Route::get('/', [EmitenteController::class, 'getEmitente']);
     Route::get('/{id}', [EmitenteController::class, 'getBydId']);
     Route::post('/new', [EmitenteController::class, 'newEmitente']);
-    Route::put('/update/{id}', [EmitenteController::class, 'updateBydId']);
+    Route::put('/update/{id}', [EmitenteController::class, 'updateById']);
     Route::delete('/delete/{id}', [EmitenteController::class, 'deleteById']);
     Route::get('/{id}/download-certificado', [EmitenteController::class, 'downloadCertificado']);
     Route::put('/emitentes/{id}/ativar', [EmitenteController::class, 'atualizarEmitenteAtivo']);
