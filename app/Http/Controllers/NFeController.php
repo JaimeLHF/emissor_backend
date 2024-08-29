@@ -282,9 +282,10 @@ class NFeController extends Controller
 
             if (!isset($nfe['erro'])) {
 
+                $venda->status = 'Aprovado + CCe';
+                $venda->justificativaCCe = $request->justificativa;
                 $venda->save();
 
-                // $xml_venda->xml = $nfe['sucesso'];
 
                 XML::create(
                     [
@@ -479,7 +480,6 @@ class NFeController extends Controller
             $pdf = $daevento->render();
             header('Content-Type: application/pdf');
             echo $pdf;
-
         } catch (InvalidArgumentException $e) {
             echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
         }

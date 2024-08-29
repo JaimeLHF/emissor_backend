@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('transp_id')->constrained('transportadoras')->nullable();
             $table->string('chave', 44);
             $table->integer('numero_nfe');
-            $table->enum('status', ['Novo', 'Rejeitado', 'Cancelado', 'Aprovado']);
+            $table->enum('status', ['Novo','Rejeitado','Cancelado','Aprovado','Aprovado + CCe']);
             $table->integer('sequencia_evento');
             $table->integer('modFrete')->nullable();
             $table->string('natOp');
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('especie')->nullable();
             $table->string('infCpl')->nullable();
             $table->string('motivo_rejeitado')->nullable();
+            $table->string('justificativaCCe')->nullable();
             $table->integer('finNFe');
             $table->timestamps();
         });

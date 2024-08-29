@@ -697,7 +697,6 @@ class NFeService
         }
     }
 
-
     ////////// Funções secundárias /////////
     private function validate_EAN13Barcode($ean)
     {

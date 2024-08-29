@@ -11,7 +11,7 @@ class Vendas extends Model
 
 
     protected $fillable = [
-        'valorTotal', 'cliente_id', 'chave', 'numero_nfe', 'status', 'sequencia_evento', 'natOp', 'finNFe', 'motivo_rejeitado', 'vFrete', 'modFrete', 'transp_id', 'xPed', 'peso_total', 'especie', 'qVol', 'infCpl'
+        'valorTotal', 'cliente_id', 'chave', 'numero_nfe', 'status', 'sequencia_evento', 'natOp', 'finNFe', 'motivo_rejeitado', 'vFrete', 'modFrete', 'transp_id', 'xPed', 'peso_total', 'especie', 'qVol', 'infCpl', 'justificativaCCe'
     ];
 
 
