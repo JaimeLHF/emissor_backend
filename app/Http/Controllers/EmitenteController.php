@@ -67,17 +67,19 @@ class EmitenteController extends Controller
     public function updateById(Request $request, $id)
     {
         try {
-        
+            $emitente = Emitente::find($id);
 
-            // Define o valor padrão de sequencia_evento
-            $data = $request->all();
+            if (!$emitente) {
+                return response()->json(['message' => 'Emitente não econtrado!'], 404);
+            }
 
-
-            return response()->json($data, 200);
+            $emitente->update($request->all());
+            return response()->json($emitente, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro interno no servidor', 'error' => $e->getMessage()], 500);
         }
     }
+
 
 
 
